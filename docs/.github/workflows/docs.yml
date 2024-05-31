@@ -1,0 +1,31 @@
+name: Deploy Documentation
+
+on:
+  push:
+    branches:
+      - gh_pages
+
+jobs:
+  build:
+    runs-on: windows
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build the site
+        run: node server.js
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.lycee }}
+          publish_dir: ./docs
